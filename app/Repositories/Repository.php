@@ -21,10 +21,15 @@ abstract class Repository implements RepositoryInterface
 
     public function update(Model $model, MassUpdate $data): Model
     {
-        $model = $this->setPropertiesFromData($this->newModel(), $data->massUpdateFormat());
+        $model = $this->setPropertiesFromData($model, $data->massUpdateFormat());
         $model->save();
 
         return $model;
+    }
+
+    public function destroy(Model $model): void
+    {
+        $this->model::destroy($model->id);
     }
 
     /**

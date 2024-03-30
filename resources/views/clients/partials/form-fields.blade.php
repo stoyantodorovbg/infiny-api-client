@@ -24,7 +24,7 @@
                     value="{{ $clientType->value }}"
                     {{ old('type', $client->type) === $clientType?->value ? 'selected' : '' }}
                 >
-                    {{ ucfirst($clientType->value) }}
+                    {{ $clientType->label() }}
                 </option>
             @endforeach
         </select>

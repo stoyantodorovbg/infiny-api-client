@@ -23,8 +23,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->index('user_id', 'type');
-            $table->unique('user_id', 'name');
+            $table->index(['user_id', 'type']);
+            $table->unique(['user_id', 'name']);
         });
     }
 

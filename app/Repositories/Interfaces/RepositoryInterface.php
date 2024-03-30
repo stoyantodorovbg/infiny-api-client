@@ -24,4 +24,12 @@ interface RepositoryInterface
      * @return Model
      */
     public function update(Model $model, MassUpdate $data): Model;
+
+    /**
+     * Destroy a model
+     *
+     * @param Model $model
+     * @return void
+     */
+    public function destroy(Model $model): void;
 }
