@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('refresh_token')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->index('user_id', 'type');
             $table->unique('user_id', 'name');
         });
