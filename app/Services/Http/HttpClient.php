@@ -2,23 +2,22 @@
 
 namespace App\Services\Http;
 
+use App\Services\Http\Interfaces\HttpClientInterface;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-abstract class HttpClient
+class HttpClient implements HttpClientInterface
 {
-    protected function getRequest(
-        string $endpoint,
+    public function getRequest(
+        string $url,
         array $parameters = [],
         array $headers = [],
         int $retries = 1,
         int $retryInterval = 100,
     ): Response
     {
-        list($parameters, $headers, $url) = $this->queryData($parameters, $headers, $endpoint);
-
         try {
             return Http::retry($retries, $retryInterval)
                 ->withHeaders($headers)
@@ -31,34 +30,23 @@ abstract class HttpClient
     }
 
     protected function postRequest(
-        string $endpoint,
-        array $parameters = [],
+        string $url,
+        array $body = [],
         array $headers = [],
         int $retries = 1,
         int $retryInterval = 100,
     ): Response
     {
-        list($parameters, $headers, $url) = $this->queryData($parameters, $headers, $endpoint);
-
         try {
             return Http::asForm()
                 ->retry($retries, $retryInterval)
                 ->withHeaders($headers)
                 ->withUserAgent(config('app.name'))
-                ->post($url, $parameters)
+                ->post($url, $body)
                 ->throw();
         } catch (RequestException $exception) {
             $this->processRequestException($exception, "Failed HTTP POST form request to {$url}");
         }
-    }
-
-    protected function queryData(array $parameters, array $headers, string $endpoint): array
-    {
-        $parameters = [...$this->baseParameters(), ...$parameters,];
-        $headers = [...$this->baseHeaders(), ...$headers,];
-        $url = $this->url($endpoint);
-
-        return [$parameters, $headers, $url];
     }
 
     protected function processRequestException(RequestException $exception, string $message): Response
@@ -68,21 +56,4 @@ abstract class HttpClient
 
         return $exception->response;
     }
-
-    protected function baseParameters(): array
-    {
-        return [];
-    }
-
-    protected function baseHeaders(): array
-    {
-        return [];
-    }
-
-    protected function url(string $endpoint): string
-    {
-        return $this->getHost() . $endpoint;
-    }
-
-    abstract protected function getHost(): string;
 }
