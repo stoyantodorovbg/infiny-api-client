@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->unsignedTinyInteger('environment');
             $table->string('client_id')->nullable();
             $table->text('client_secret')->nullable();
             $table->text('access_token')->nullable();

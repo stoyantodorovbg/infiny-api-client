@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InfinyController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'welcome'])->name('home.welcome');
@@ -23,5 +25,12 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/update/{client}', [ClientsController::class, 'update'])->name('clients.update');
         Route::get('/delete/{client}', [ClientsController::class, 'delete'])->name('clients.delete');
         Route::delete('/destroy/{client}', [ClientsController::class, 'destroy'])->name('clients.destroy');
+    });
+
+    // Infiny
+    Route::prefix('infiny')->group(function () {
+        Route::get('/{client}', [InfinyController::class, 'home'])->name('infiny.home');
+        Route::get('/services/{client}', [InfinyController::class, 'services'])->name('infiny.services');
+        Route::get('/service-details/{client}', [InfinyController::class, 'serviceDetails'])->name('infiny.serviceDetails');
     });
 });

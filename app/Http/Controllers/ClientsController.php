@@ -91,7 +91,7 @@ class ClientsController
     }
 
     /**
-     * delete a client
+     * Delete a client
      *
      * @param Client                    $client
      * @param ClientRepositoryInterface $clientRepository
