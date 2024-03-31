@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Clients\RequestServices;
+use App\Actions\Infiny\RequestServiceDetails;
+use App\Actions\Infiny\RequestServices;
 use App\Models\Client;
+use Illuminate\Contracts\Foundation\Application as ContractApplication;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Contracts\Foundation\Application as ContractApplication;
 
 class InfinyController
 {
@@ -20,34 +21,35 @@ class InfinyController
      */
     public function home(Client $client): View|Application|Factory|ContractApplication
     {
-        // ping API to check connection
-        $ping = true;
-
-        return view('infiny.home', compact('ping', 'client'));
+        return view('infiny.home', compact('client'));
     }
 
     /**
      * Lists data from Infiny Services endpoint
      *
-     *
+     * @param Client $client
+     * @return View|Application|Factory|ContractApplication
      */
     public function services(Client $client): View|Application|Factory|ContractApplication
     {
-        $data = RequestServices::run($client);
-
-        return view('infiny.services', compact('data'));
+        return view('infiny.services', [
+            'services' => RequestServices::run($client),
+            'clientId' => $client->id,
+        ]);
     }
 
     /**
      * View data from Infiny Service Details endpoint
      *
-     *
+     * @param Client $client
+     * @param int    $serviceId
+     * @return View|Application|Factory|ContractApplication
      */
-    public function serviceDetails(Client $client): View|Application|Factory|ContractApplication
+    public function serviceDetails(Client $client, int $serviceId): View|Application|Factory|ContractApplication
     {
-        // Fetch API data
-        $data = [];
-
-        return view('infiny.service-details', compact('data'));
+        return view('infiny.service-details', [
+            'service' => RequestServiceDetails::run($client, $serviceId),
+            'clientId' => $client->id,
+        ]);
     }
 }

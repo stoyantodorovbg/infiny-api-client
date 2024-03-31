@@ -31,6 +31,6 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('infiny')->group(function () {
         Route::get('/{client}', [InfinyController::class, 'home'])->name('infiny.home');
         Route::get('/services/{client}', [InfinyController::class, 'services'])->name('infiny.services');
-        Route::get('/service-details/{client}', [InfinyController::class, 'serviceDetails'])->name('infiny.serviceDetails');
+        Route::get('/service-details/{client}/{serviceId}', [InfinyController::class, 'serviceDetails'])->name('infiny.serviceDetails');
     });
 });

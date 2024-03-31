@@ -20,7 +20,7 @@ class InfinyClient extends InfinyBaseClient implements InfinyClientInterface
 
     public function serviceDetails(int $serviceId): Response
     {
-        return $this->assureAuthorizedGet($this->url("/api/services{$serviceId}/service"));
+        return $this->assureAuthorizedGet($this->url("/api/services/{$serviceId}/service"));
     }
 
     protected function assureAuthorizedGet(string $url, array $parameters = []): Response
