@@ -10,6 +10,24 @@
         >
         @include('partials.form-validation', ['name' => 'name'])
     </div>
+    <div class="col-md-6 col-6 m-1">
+        <label for="client-type">{{ __('Environment') }}</label>
+        <select
+            name="environment"
+            class="form-select"
+            id="client-environment"
+        >
+            @foreach($environments as $environment)
+                <option
+                    value="{{ $environment->value }}"
+                    {{ old('environment', $client->environment) === $environment ? 'selected' : '' }}
+                >
+                    {{ $environment->label() }}
+                </option>
+            @endforeach
+        </select>
+        @include('partials.form-validation', ['name' => 'environment'])
+    </div>
 </div>
 
 <div class="d-flex col-12">

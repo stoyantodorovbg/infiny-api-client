@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Clients\ClientFromRequest;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
+use App\Models\Enum\ClientEnvironment;
 use App\Models\User;
 use App\Repositories\Interfaces\ClientRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -38,7 +39,10 @@ class ClientsController
      */
     public function create(): View|Application|Factory|ContractApplication
     {
-        return view('clients.create', ['client' => new Client()]);
+        return view('clients.create', [
+            'client' => new Client(),
+            'environments' => ClientEnvironment::cases(),
+        ]);
     }
 
     /**
@@ -62,7 +66,10 @@ class ClientsController
      */
     public function edit(Client $client): View|Application|Factory|ContractApplication
     {
-        return view('clients.edit', compact('client'));
+        return view('clients.edit', [
+            'client' => $client,
+            'environments' => ClientEnvironment::cases(),
+        ]);
     }
 
     /**
