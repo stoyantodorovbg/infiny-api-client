@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\TTLock\Exceptions;
+namespace App\Services\Infiny\Exceptions;
 
 class InfinyRequestException extends \Exception
 {

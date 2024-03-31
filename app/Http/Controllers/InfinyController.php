@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Clients\RequestServices;
 use App\Models\Client;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -32,8 +33,7 @@ class InfinyController
      */
     public function services(Client $client): View|Application|Factory|ContractApplication
     {
-        // Fetch API data
-        $data = [];
+        $data = RequestServices::run($client);
 
         return view('infiny.services', compact('data'));
     }

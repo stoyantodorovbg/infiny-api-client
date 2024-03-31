@@ -6,13 +6,13 @@ use App\Models\Client;
 use App\Repositories\Interfaces\ClientRepositoryInterface;
 use App\Services\Http\Interfaces\HttpClientInterface;
 use App\Services\Http\Interfaces\HttpClientConnector;
-use App\Services\TTLock\Exceptions\InfinyRequestException;
+use App\Services\Infiny\Exceptions\InfinyRequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Log;
 
 class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnector
 {
-    protected string|null $accessToken;
+    protected string|null $accessToken = null;
 
     public function __construct(protected Client $client, protected HttpClientInterface $httpClient)
     {
@@ -63,6 +63,9 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
     }
 
     /**
+     * Fetch refresh token
+     *
+     * @return string
      * @throws InfinyRequestException
      */
     protected function refreshAccessToken(): string
@@ -81,6 +84,12 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
         $this->throwException();
     }
 
+    /**
+     * Prepare request body
+     *
+     * @param array $body
+     * @return array
+     */
     protected function requestBody(array $body): array
     {
         return [...$body, ...[
@@ -93,20 +102,26 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
     /**
      * Send request to get access token
      *
-     * @param string $endpoint
+     * @param string $url
      * @param array  $body
      * @return Response
      */
-    protected function tokenRequest(string $endpoint, array $body): Response
+    protected function tokenRequest(string $url, array $body): Response
     {
         return $this->httpClient->postRequest(
-            url: $this->url($endpoint),
+            url: $url,
             body: $body,
             headers: $this->headers(),
             retries: 3,
         );
     }
 
+    /**
+     * Store tokens and set token in this instance
+     *
+     * @param Response $response
+     * @return string
+     */
     protected function processSuccessResponse(Response $response): string
     {
         $responseBody = $response->json();
@@ -120,12 +135,20 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
         return $this->accessToken;
     }
 
+    /**
+     * Log on failure
+     *
+     * @param string $message
+     * @return void
+     */
     protected function logCritical(string $message): void
     {
         Log::critical("Infiny client {$this->client->id} failed: {$message}");
     }
 
     /**
+     * Throw exception
+     *
      * @throws InfinyRequestException
      */
     protected function throwException(): never

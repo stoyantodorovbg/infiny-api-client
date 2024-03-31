@@ -26,10 +26,12 @@ class HttpClient implements HttpClientInterface
                 ->throw();
         } catch (RequestException $exception) {
             $this->processRequestException($exception, "Failed HTTP GET request to {$url}");
+
+            return $exception->response;
         }
     }
 
-    protected function postRequest(
+    public function postRequest(
         string $url,
         array $body = [],
         array $headers = [],
@@ -38,14 +40,15 @@ class HttpClient implements HttpClientInterface
     ): Response
     {
         try {
-            return Http::asForm()
-                ->retry($retries, $retryInterval)
+            return Http::retry($retries, $retryInterval)
                 ->withHeaders($headers)
                 ->withUserAgent(config('app.name'))
                 ->post($url, $body)
                 ->throw();
         } catch (RequestException $exception) {
             $this->processRequestException($exception, "Failed HTTP POST form request to {$url}");
+
+            return $exception->response;
         }
     }
 
