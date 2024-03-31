@@ -2,16 +2,17 @@
 
 @section('content')
     <div class="card">
+        <div class="card-header">{{ __('Delete Client') }}</div>
         <div class="card-body">
-            {{ __('Are you sure?') }}
+            <p>{{ __('Are you sure?') }}</p>
+            <form method="POST" action="{{ route('clients.destroy', $client) }}">
+                @method('DELETE')
+                @csrf
+                <a href="{{ route('clients.index') }}">
+                    <button type="button" class="btn btn-light">{{ __('Cancel') }}</button>
+                </a>
+                <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
+            </form>
         </div>
     </div>
-    <form method="POST" action="{{ route('clients.destroy', $client) }}">
-        @method('DELETE')
-        @csrf
-        <a href="{{ route('clients.index') }}">
-            <button type="button" class="btn btn-light mt-5">{{ __('Cancel') }}</button>
-        </a>
-        <button type="submit" class="btn btn-danger mt-5">{{ __('Delete') }}</button>
-    </form>
 @endsection

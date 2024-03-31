@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
-            $table->string('type');
             $table->string('client_id')->nullable();
             $table->text('client_secret')->nullable();
             $table->text('access_token')->nullable();
@@ -23,7 +22,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->index(['user_id', 'type']);
             $table->unique(['user_id', 'name']);
         });
     }

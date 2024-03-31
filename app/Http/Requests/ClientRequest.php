@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Enum\ClientType;
 use App\Rules\ClientNameUnique;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,11 +29,6 @@ class ClientRequest extends FormRequest
                 'string',
                 'max:20',
                 new ClientNameUnique($this->user(), $this->client, $this->method()),
-            ],
-            'type' => [
-                'required',
-                'string',
-                'in:' . implode(',', array_column(ClientType::cases(), 'value')),
             ],
             'client_id' => [
                 'required',

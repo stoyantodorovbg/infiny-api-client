@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application as ContractApplication;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 
-class HomeController extends Controller
+class HomeController
 {
-    public function __construct()
+    /**
+     * Welcome page
+     *
+     * @return View|Application|Factory|ContractApplication
+     */
+    public function welcome(): View|Application|Factory|ContractApplication
     {
-        $this->middleware('auth');
+        return view('welcome');
     }
 
     /**
-     * Show the application dashboard.
+     * Show user's dashboard .
      *
      * @return Renderable
      */
-    public function index(): Renderable
+    public function home(): Renderable
     {
-        return view('welcome');
+        return view('dashboard');
     }
 }

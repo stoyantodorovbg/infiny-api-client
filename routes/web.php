@@ -1,15 +1,18 @@
 <?php
 
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', static fn () => view('welcome'));
+Route::get('/', [HomeController::class, 'welcome'])->name('home.welcome');
 
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    // Home
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // Dashboard
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', [HomeController::class, 'home'])->name('home.dashboard');
+    });
 
     // Clients
     Route::prefix('clients')->group(function () {

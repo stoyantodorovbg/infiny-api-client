@@ -1,5 +1,3 @@
-@php use App\Models\Enum\ClientType; @endphp
-
 <div class="d-flex col-12">
     <div class="col-md-6 col-6 m-1">
         <label for="client-name">{{ __('Name') }}</label>
@@ -11,24 +9,6 @@
             value="{{ old('name', $client?->name) }}"
         >
         @include('partials.form-validation', ['name' => 'name'])
-    </div>
-    <div class="col-md-6 col-6 m-1">
-        <label for="client-type">{{ __('Type') }}</label>
-        <select
-            name="type"
-            class="form-select"
-            id="client-type"
-        >
-            @foreach(ClientType::cases() as $clientType)
-                <option
-                    value="{{ $clientType->value }}"
-                    {{ old('type', $client->type) === $clientType?->value ? 'selected' : '' }}
-                >
-                    {{ $clientType->label() }}
-                </option>
-            @endforeach
-        </select>
-        @include('partials.form-validation', ['name' => 'type'])
     </div>
 </div>
 

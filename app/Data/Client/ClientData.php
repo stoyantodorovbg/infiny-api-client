@@ -4,7 +4,6 @@ namespace App\Data\Client;
 
 use App\Data\Interfaces\MassStore;
 use App\Data\Interfaces\MassUpdate;
-use App\Models\Enum\ClientType;
 use App\Models\User;
 use SensitiveParameter;
 use Spatie\LaravelData\Data;
@@ -14,7 +13,6 @@ class ClientData extends Data implements MassStore, MassUpdate
     public function __construct(
         public User $user,
         public string $name,
-        public ClientType $type,
         public string $clientId,
         #[SensitiveParameter]
         public string $clientSecret,
@@ -31,7 +29,6 @@ class ClientData extends Data implements MassStore, MassUpdate
         return [
             'user_id' => $this->user->id,
             'name' => $this->name,
-            'type' => $this->type,
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
         ];

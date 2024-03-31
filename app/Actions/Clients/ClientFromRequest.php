@@ -5,7 +5,6 @@ namespace App\Actions\Clients;
 use App\Data\Client\ClientData;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
-use App\Models\Enum\ClientType;
 use App\Repositories\Interfaces\ClientRepositoryInterface;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -23,7 +22,6 @@ class ClientFromRequest
         $data = new ClientData(
             user: $request->user(),
             name: $request->get('name'),
-            type: ClientType::from($request->get('type')),
             clientId: $request->get('client_id'),
             clientSecret: $request->get('client_secret'),
         );
