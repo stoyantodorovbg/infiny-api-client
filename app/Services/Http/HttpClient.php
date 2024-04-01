@@ -13,6 +13,7 @@ class HttpClient implements HttpClientInterface
     public function getRequest(
         string $url,
         array $parameters = [],
+        #[\SensitiveParameter]
         array $headers = [],
         int $retries = 1,
         int $retryInterval = 1000,
@@ -34,6 +35,7 @@ class HttpClient implements HttpClientInterface
     public function postRequest(
         string $url,
         array $body = [],
+        #[\SensitiveParameter]
         array $headers = [],
         int $retries = 1,
         int $retryInterval = 1000,

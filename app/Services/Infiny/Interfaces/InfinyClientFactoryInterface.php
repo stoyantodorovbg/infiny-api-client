@@ -3,7 +3,6 @@
 namespace App\Services\Infiny\Interfaces;
 
 use App\Models\Client;
-use App\Services\Infiny\Http\InfinyClient;
 
 interface InfinyClientFactoryInterface
 {
@@ -11,7 +10,7 @@ interface InfinyClientFactoryInterface
      * Create Infiny client by given Client Model
      *
      * @param Client $client
-     * @return InfinyClient
+     * @return InfinyClientInterface
      */
-    public function create(Client $client): InfinyClient;
+    public function create(Client $client): InfinyClientInterface;
 }
