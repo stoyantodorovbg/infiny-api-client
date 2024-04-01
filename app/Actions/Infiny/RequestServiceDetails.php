@@ -21,7 +21,7 @@ class RequestServiceDetails
     {
     }
 
-    public function handle(Client $client, int $serviceId): array|MessageBag
+    public function handle(Client $client, int $serviceId): array
     {
         $infinyClient = $this->infinyClientFactory->create($client);
 

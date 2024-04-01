@@ -60,6 +60,7 @@ class InfinyHttpClientTest extends TestCase
 
         Http::fake([
             'https://demo.infiny.cloud/api/services' => Http::response($this->fakeServicesResponse),
+            'https://demo.infiny.cloud/api/oauth2/*' => Http::response([]),
         ]);
         $response = $infinyClient->services();
         $this->assertEquals($response->json(), $this->fakeServicesResponse);
@@ -105,6 +106,7 @@ class InfinyHttpClientTest extends TestCase
 
         Http::fake([
             'https://demo.infiny.cloud/api/services/*' => Http::response($this->fakeServiceDetailsResponse),
+            'https://demo.infiny.cloud/api/oauth2/*' => Http::response([]),
         ]);
         $response = $infinyClient->serviceDetails(1);
         $this->assertEquals($response->json(), $this->fakeServiceDetailsResponse);
