@@ -15,6 +15,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Contracts\Foundation\Application as ContractApplication;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Gate;
 
 class ClientsController
 {
@@ -66,6 +67,8 @@ class ClientsController
      */
     public function edit(Client $client): View|Application|Factory|ContractApplication
     {
+        Gate::authorize('update', $client);
+
         return view('clients.edit', [
             'client' => $client,
             'environments' => ClientEnvironment::cases(),
@@ -81,6 +84,8 @@ class ClientsController
      */
     public function update(Client $client, ClientRequest $request): Application|Redirector|RedirectResponse|ContractApplication
     {
+        Gate::authorize('update', $client);
+
         ClientFromRequest::run($request, $client);
 
         return redirect(route('clients.index'));
@@ -94,6 +99,8 @@ class ClientsController
      */
     public function delete(Client $client): View|Application|Factory|ContractApplication
     {
+        Gate::authorize('delete', $client);
+
         return view('clients.delete', compact('client'));
     }
 
@@ -106,6 +113,8 @@ class ClientsController
      */
     public function destroy(Client $client, ClientRepositoryInterface $clientRepository): Application|Redirector|RedirectResponse|ContractApplication
     {
+        Gate::authorize('delete', $client);
+
         $clientRepository->destroy($client);
 
         return redirect(route('clients.index'));

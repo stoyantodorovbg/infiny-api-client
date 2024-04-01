@@ -9,6 +9,7 @@ use Illuminate\Contracts\Foundation\Application as ContractApplication;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Gate;
 
 class InfinyController
 {
@@ -20,6 +21,8 @@ class InfinyController
      */
     public function services(Client $client): View|Application|Factory|ContractApplication
     {
+        Gate::authorize('view', $client);
+
         return view('infiny.services', [
             'services' => RequestServices::run($client),
             'clientId' => $client->id,
@@ -35,6 +38,8 @@ class InfinyController
      */
     public function serviceDetails(Client $client, int $serviceId): View|Application|Factory|ContractApplication
     {
+        Gate::authorize('view', $client);
+
         return view('infiny.service-details', [
             'service' => RequestServiceDetails::run($client, $serviceId),
             'clientId' => $client->id,
