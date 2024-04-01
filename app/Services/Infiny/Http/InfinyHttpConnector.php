@@ -16,6 +16,7 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
 
     public function __construct(protected Client $client, protected HttpClientInterface $httpClient)
     {
+        $this->accessToken = $this->client->access_token;
     }
 
     public function getHttpClient(): HttpClientInterface

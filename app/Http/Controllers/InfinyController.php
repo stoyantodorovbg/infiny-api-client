@@ -13,18 +13,6 @@ use Illuminate\Foundation\Application;
 class InfinyController
 {
     /**
-     * Infiny home page
-     * Pings API to check credentials
-     *
-     * @param Client $client
-     * @return View|Application|Factory|ContractApplication
-     */
-    public function home(Client $client): View|Application|Factory|ContractApplication
-    {
-        return view('infiny.home', compact('client'));
-    }
-
-    /**
      * Lists data from Infiny Services endpoint
      *
      * @param Client $client

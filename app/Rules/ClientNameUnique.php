@@ -30,8 +30,7 @@ class ClientNameUnique implements ValidationRule
             ->where('user_id', $this->user->id)
             ->when(
                 value: $this->method === 'PUT',
-                callback: fn (Builder $query) => $query
-                    ->where('id', '!=', $this->client->id),
+                callback: fn (Builder $query) => $query->where('id', '!=', $this->client->id),
             ),
         )->count();
 

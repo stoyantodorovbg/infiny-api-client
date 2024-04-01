@@ -15,7 +15,7 @@ class HttpClient implements HttpClientInterface
         array $parameters = [],
         array $headers = [],
         int $retries = 1,
-        int $retryInterval = 100,
+        int $retryInterval = 1000,
     ): Response
     {
         try {
@@ -36,7 +36,7 @@ class HttpClient implements HttpClientInterface
         array $body = [],
         array $headers = [],
         int $retries = 1,
-        int $retryInterval = 100,
+        int $retryInterval = 1000,
     ): Response
     {
         try {
@@ -46,7 +46,7 @@ class HttpClient implements HttpClientInterface
                 ->post($url, $body)
                 ->throw();
         } catch (RequestException $exception) {
-            $this->processRequestException($exception, "Failed HTTP POST form request to {$url}");
+            $this->processRequestException($exception, "Failed HTTP POST request to {$url}");
 
             return $exception->response;
         }

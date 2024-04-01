@@ -7,8 +7,9 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>{{ __('Launch') }}</th>
+                        <th>{{ __('Links') }}</th>
                         <th>{{ __('Name') }}</th>
+                        <th>{{ __('Environment') }}</th>
                         <th>{{ __('Manage') }}</th>
                     </tr>
                 </thead>
@@ -16,9 +17,10 @@
                     @foreach ($clients as $client)
                         <tr>
                             <td>
-                                <a href="{{ route('infiny.home', $client) }}"><i class="bi bi-caret-right-fill text-primary"></i></a>
+                                <a href="{{ route('infiny.services', $client) }}">{{ __('Services') }}</i></a>
                             </td>
                             <td>{{ $client->name }}</td>
+                            <td>{{ $client->environment->label() }}</td>
                             <td>
                                 <a href="{{ route('clients.edit', $client) }}">
                                     <i class="bi-pencil-square text-success"></i>

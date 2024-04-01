@@ -13,7 +13,7 @@ abstract class Repository implements RepositoryInterface
 
     public function store(MassStore $data): Model
     {
-        $model = $this->setPropertiesFromData($this->newModel(), $data->massStoreFormat());
+        $model = $this->setPropertiesFromArray($this->newModel(), $data->massStoreFormat());
         $model->save();
 
         return $model;
@@ -21,7 +21,7 @@ abstract class Repository implements RepositoryInterface
 
     public function update(Model $model, MassUpdate $data): Model
     {
-        $model = $this->setPropertiesFromData($model, $data->massUpdateFormat());
+        $model = $this->setPropertiesFromArray($model, $data->massUpdateFormat());
         $model->save();
 
         return $model;
@@ -49,7 +49,7 @@ abstract class Repository implements RepositoryInterface
      * @param array $data
      * @return Model
      */
-    protected function setPropertiesFromData(Model $model, array $data): Model
+    protected function setPropertiesFromArray(Model $model, array $data): Model
     {
         foreach ($data as $column => $value) {
             $model->$column = $value;
