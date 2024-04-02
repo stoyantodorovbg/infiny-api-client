@@ -21,7 +21,7 @@ class ClientFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create()->id,
-            'name' => fake()->text(10),
+            'name' => fake()->unique()->text(10),
             'environment' => ClientEnvironment::DEMO,
             'client_id' => Str::random(50),
             'client_secret' => Str::random(50),
