@@ -22,10 +22,10 @@
                             <td>{{ $client->name }}</td>
                             <td>{{ $client->environment->label() }}</td>
                             <td>
-                                <a href="{{ route('clients.edit', $client) }}">
+                                <a class="link-button" href="{{ route('clients.edit', $client) }}">
                                     <i class="bi-pencil-square text-success"></i>
                                 </a>
-                                <a href="{{ route('clients.delete', $client) }}">
+                                <a class="link-button" href="{{ route('clients.delete', $client) }}">
                                     <i class="bi-trash-fill text-danger"></i>
                                 </a>
                             </td>

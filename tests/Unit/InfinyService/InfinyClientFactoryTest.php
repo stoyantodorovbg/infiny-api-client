@@ -3,6 +3,7 @@
 namespace Tests\Unit\InfinyService;
 
 use App\Models\Client;
+use App\Services\Infiny\Http\InfinyClient;
 use App\Services\Infiny\Interfaces\InfinyClientFactoryInterface;
 use App\Services\Infiny\Interfaces\InfinyClientInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,5 +20,6 @@ class InfinyClientFactoryTest extends TestCase
         $infinyClient = resolve(InfinyClientFactoryInterface::class)->create($client);
 
         $this->assertInstanceOf(InfinyClientInterface::class, $infinyClient);
+        $this->assertInstanceOf(InfinyClient::class, $infinyClient);
     }
 }

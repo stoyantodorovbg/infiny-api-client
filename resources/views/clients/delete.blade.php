@@ -8,7 +8,7 @@
             <form method="POST" action="{{ route('clients.destroy', $client) }}">
                 @method('DELETE')
                 @csrf
-                <a href="{{ route('clients.index') }}">
+                <a class="link-button" href="{{ route('clients.index') }}">
                     <button type="button" class="btn btn-light">{{ __('Cancel') }}</button>
                 </a>
                 <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
