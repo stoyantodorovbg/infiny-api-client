@@ -33,11 +33,7 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
             return $this->refreshAccessToken();
         }
 
-        if (! $this->accessToken) {
-            return $this->getAccessToken();
-        }
-
-        return $this->accessToken;
+        return $this->accessToken ?? $this->getAccessToken();
     }
 
     protected function getClient(): Client
@@ -55,12 +51,12 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
     {
         $body = $this->requestBody(['grant_type' => 'client_credentials']);
         $response = $this->tokenRequest($this->url('/api/oauth2/access-token'), $body);
-        if ($response->ok()) {
-            return $this->processSuccessResponse($response);
+
+        if (! $response->ok()) {
+            $this->processFailedResponse($response, "Can't receive access token.");
         }
 
-        $this->logCritical("Can't receive access token.");
-        $this->throwException();
+        return $this->processSuccessResponse($response);
     }
 
     /**
@@ -73,16 +69,16 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
     {
         $body = $this->requestBody([
             'refresh_token' => $this->client->refresh_token,
-            'grant_type' => 'refresh_token'
+            'grant_type' => 'refresh_token',
         ]);
 
         $response = $this->tokenRequest($this->url('/api/oauth2/refresh-token'), $body);
-        if ($response->ok()) {
-            return $this->processSuccessResponse($response);
+
+        if (! $response->ok()) {
+            $this->processFailedResponse($response, "Can't refresh access token.");
         }
 
-        $this->logCritical("Can't refresh access token.");
-        $this->throwException();
+        return $this->processSuccessResponse($response);
     }
 
     /**
@@ -96,7 +92,7 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
         return [...$body, ...[
                 'client_id' => $this->client->client_id,
                 'client_secret' => $this->client->client_secret,
-            ]
+            ],
         ];
     }
 
@@ -137,6 +133,16 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
     }
 
     /**
+     * @throws InfinyRequestException
+     */
+    public function processFailedResponse(Response $response, string $message): never
+    {
+        $this->logCritical($message);
+        $errorMessage = "Response with status {$response->status()} received. Response body: {$response->body()}";
+        $this->throwException($errorMessage);
+    }
+
+    /**
      * Log on failure
      *
      * @param string $message
@@ -152,8 +158,8 @@ class InfinyHttpConnector extends InfinyBaseClient implements HttpClientConnecto
      *
      * @throws InfinyRequestException
      */
-    protected function throwException(): never
+    protected function throwException(string $message): never
     {
-        throw new InfinyRequestException("Can't authenticate.");
+        throw new InfinyRequestException("Can't authenticate. {$message}");
     }
 }
